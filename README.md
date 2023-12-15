@@ -2,7 +2,7 @@
 ### Setup VScode debugging (quickly)
 
 If you never used a debugger before or never configure it on VScode, stay a while and listen.  
- *All instrutions refer to files on this repository*.   
+ *All instrutions refer to files on this repository*.   <br />
 
 	  
 First image will guide you at starting the config process. Just click where pointed.
@@ -12,7 +12,7 @@ First image will guide you at starting the config process. Just click where poin
 When you have done that, on VScode explorer (1st button on top left) there's a new folder `.vscode` with the file `launch.json`.  
 *Use launch.json and tasks.json on github to guide you., copy them to `.vscode` folder*  
 
-Files are commented where is relevant. Here they are edited for brevity.
+<br />Files are commented where is relevant. Here they are edited for brevity.
 
 #### launch.json
 ```json
@@ -31,6 +31,7 @@ Files are commented where is relevant. Here they are edited for brevity.
 		"stopAtEntry": true,	//optional, if true debugger always stop at first instruction
 		"cwd": "${fileDirname}",
 		"environment": [],
+
 		"externalConsole": false,
 		"MIMode": "gdb",
 		"preLaunchTask": "gcc build",	//important, corresponds to label on tasks.json
@@ -49,6 +50,7 @@ Files are commented where is relevant. Here they are edited for brevity.
 		"program": "${workspaceFolder}/ballons.out",
 		}
 ```
+<br /><br />
 
 #### tasks.json
 ```json
@@ -96,7 +98,7 @@ Files are commented where is relevant. Here they are edited for brevity.
 	}
 ```
 
-
+<br /><br />
 ### Now we are ready to debug our code:
 
 
@@ -111,6 +113,7 @@ Files are commented where is relevant. Here they are edited for brevity.
 Select a option from (1) and click the green play icon. VScode will compile and launch.  
 > [!IMPORTANT]
 > Make sure `main.c` is open and active before launching anything.
+<br />
 
 #### The debugger toolbar will appear.   
 if `"stopAtEntry": true,` there will be a yellow arrow at line 27 pointing to the first instrution `int cnt = 3;`  
@@ -121,7 +124,7 @@ If you want to keep track a variable click the + on box 4 and write the name.
 > [!TIP]
 > If the variable is passed as a argument it will keep track across functions.  
 > some common variable names like `len, i` will change when entering functions to reflect the new scope.  
-
+<br />
 
 ### Debugger toolbar
 ![3_toolbar](https://github.com/Carlos-o-Grande/Debug-setup-vscode-quick/blob/main/toolbar.png)
@@ -133,6 +136,7 @@ from left to right:
 - you figure that one
 - RESTART
 - STOP
+<br />
 
 ### Are you using a Makefile?
 Should as simple as adding somewhere below `all` rule this code:
@@ -140,5 +144,5 @@ Should as simple as adding somewhere below `all` rule this code:
 debug: CFLAGS += -g3
 debug: re
 ```
-
+<br />
 That's it. Done. For new projects just copy the .vscode folder and it's contents and do some editing.  
