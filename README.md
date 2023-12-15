@@ -135,14 +135,10 @@ from left to right:
 - STOP
 
 ### Are you using a Makefile?
-Should as simple as adding somewhere bellow all rule this code:
+Should as simple as adding somewhere below `all` rule this code:
 ```
 debug: CFLAGS += -g3
 debug: re
 ```
 
 That's it. Done. For new projects just copy the .vscode folder and it's contents and do some editing.  
-> [!NOTE]
-> TIf the va
-
-
