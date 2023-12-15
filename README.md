@@ -139,10 +139,11 @@ from left to right:
 <br />
 
 ### Are you using a Makefile?
-Should as simple as adding somewhere below `all` rule this code:
+To compile with debug options add somewhere below `all` rule
 ```
 debug: CFLAGS += -g3
 debug: re
 ```
+ 
 <br />
 That's it. Done. For new projects just copy the .vscode folder and it's contents and do some editing.  
