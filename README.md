@@ -9,8 +9,8 @@ First image will guide you at starting the config process. Just click where poin
 
 ![1_setup](https://github.com/Carlos-o-Grande/Debug-setup-vscode-quick/blob/main/1_setup.png)
 
-When you have done that, on VScode explorer (1st button on top left) a .vscode folder appears with a launch.json.  
-*Use launch.json and tasks.json on github to guide you.*  
+When you have done that, on VScode explorer (1st button on top left) there's a new folder `.vscode` with the file `launch.json`.  
+*Use launch.json and tasks.json on github to guide you., copy them to `.vscode` folder*  
 
 Files are commented where is relevant. Here they are edited for brevity.
 
