@@ -108,7 +108,7 @@ Files are commented where is relevant. Here they are edited for brevity.
 
 Select a option from (1) and click the green play icon. VScode will compile and launch
 the debugger toolbar will appear. 
-if "stopAtEntry": true,	
+if "stopAtEntry": true,	 there will be a yellow arrowe at line  27 pointing to the first instrution 
 
 
-![3_toolbar(]https://github.com/Carlos-o-Grande/Debug-setup-vscode-quick/blob/main/toolbar.png)
+![3_toolbar](https://github.com/Carlos-o-Grande/Debug-setup-vscode-quick/blob/main/toolbar.png)
