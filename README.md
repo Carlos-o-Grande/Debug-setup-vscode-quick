@@ -1,30 +1,45 @@
-# Debug-setup-vscode-quick
+# Debugging with GDB and vsCode
+
+###
+GDB demo (WIP, see canva presentation)
+
+complile manually on terminal
+open gdb ./a.oout
+etc.
+demo breakpoints
+watch vars
+load coredump
+how to read trace stack
+interactions with other flags (-gn -On) and options (fsanitazise)
+valgrind (??)
+
+
 ### Setup VScode debugging (quickly)
 
-If you never used a debugger before or never configure it on VScode, stay a while and listen.  
+If you never used a debugger before or never configure it on VScode, stay a while and listen.
  *All instrutions refer to files on this repository*.   <br />
 
-	  
+
 First image will guide you at starting the config process. Just click where pointed.
 
-![1_setup](https://github.com/Carlos-o-Grande/Debug-setup-vscode-quick/blob/main/1_setup.png)
+![1_setup](https://github.com/Carlos-o-Grande/Debug-setup-vscode-quick/blob/main/assets/1_setup.png)
 
-When you have done that, on VScode explorer (1st button on top left) there's a new folder `.vscode` with the file `launch.json`.  
-*Use launch.json and tasks.json on github to guide you., copy them to `.vscode` folder*  
+When you have done that, on VScode explorer (1st button on top left) there's a new folder `.vscode` with the file `launch.json`.
+*Use launch.json and tasks.json on github to guide you., copy them to `.vscode` folder*
 
 <br />Files are commented where is relevant. Here they are edited for brevity.
 
 #### launch.json
 ```json
 "configurations": [
-// this launch option runs the executable but before executes "preLaunchTask": "gcc build" (see tasks.json)
+// this launch option runs the executable but before executes "preLaunchTask": "cc build" (see tasks.json)
 // "program": "${workspaceFolder}/" *ballons.out* can be replaced by a variable expanded on launch
 // we also setup args[] to 99, this executes "ballons.out 99" setting the argv of the program
 	{
-		"name": "GCC & Launch",
+		"name": "CC & Launch",
 		"type": "cppdbg",
 		"request": "launch",
-		"program": "${workspaceFolder}/ballons.out",
+		"program": "${workspaceFolder}/${fileBasenameNoExtension}.out",
 		"args": [
 			"99",
 		],
@@ -34,7 +49,7 @@ When you have done that, on VScode explorer (1st button on top left) there's a n
 
 		"externalConsole": false,
 		"MIMode": "gdb",
-		"preLaunchTask": "gcc build",	//important, corresponds to label on tasks.json
+		"preLaunchTask": "C/C++: cc build active file",	//important, corresponds to label on tasks.json
 		[...omited...],
 	},
 // this launch option runs the executable but before executes  "preLaunchTask": "Makefile" (see tasks.json)
@@ -56,21 +71,21 @@ When you have done that, on VScode explorer (1st button on top left) there's a n
 ```json
 
 "tasks": [
-	// this task runs "gcc". args[] is used to setup command options.
-	// in this example: gcc -fdiagnostics-color=always -g3 ${file} -o ${fileDirname}/ballons.out
+	// this task runs "cc". args[] is used to setup command options.
+	// in this example: cc -fdiagnostics-color=always -g3 ${file} -o ${fileDirname}/ballons.out
 	// ${file} is the active file on the editor.
 	// For this example can be explicity replaced with main.c
-	// the "label": "gcc build" is how launch.json identifies the task to run
+	// the "label": "cc build" is how launch.json identifies the task to run
 	{
 		"type": "cppbuild",
-		"label": "gcc build",	//important
-		"command": "/usr/bin/gcc",
+		"label": "C/C++: cc build active file",	//important
+		"command": "/usr/bin/cc",
 		"args": [
 			"-fdiagnostics-color=always",
 			"-g3",
 			"${file}",
 			"-o",
-			"${fileDirname}/ballons.out"
+			"${fileDirname}/${fileBasenameNoExtension}.out"
 		],
 		"options": {
 			"cwd": "${fileDirname}"
@@ -102,7 +117,7 @@ When you have done that, on VScode explorer (1st button on top left) there's a n
 ### Now we are ready to debug our code:
 
 
-![2_debug](https://github.com/Carlos-o-Grande/Debug-setup-vscode-quick/blob/main/2_debug.png)
+![2_debug](https://github.com/Carlos-o-Grande/Debug-setup-vscode-quick/blob/main/assets/2_debug.png)
 
 1. Dropdown with the options from launch.json
 2. debugger toolbar (more on that below)
@@ -110,26 +125,26 @@ When you have done that, on VScode explorer (1st button on top left) there's a n
 4. variables to watch
 5. terminal for program output
 
-Select a option from (1) and click the green play icon. VScode will compile and launch.  
+Select a option from (1) and click the green play icon. VScode will compile and launch.
 > [!IMPORTANT]
-> Make sure `main.c` is open and active before launching anything.
+> Make sure `YourFile.c` is open and active before launching anything.
 <br />
 
-#### The debugger toolbar will appear.   
-if `"stopAtEntry": true,` there will be a yellow arrow at line 27 pointing to the first instrution `int cnt = 3;`  
-Otherwise it will point to first breakpoint, if there isn't one, program writes to terminal and ends.  
-To setup a breakpoint click to the left of line number.  Try setting the breakpoints like in the image.  
-If you want to keep track a variable click the + on box 4 and write the name.  
+#### The debugger toolbar will appear.
+if `"stopAtEntry": true,` there will be a yellow arrow at line 34 pointing to the first instrution `int cnt = 3;`
+Otherwise it will point to first breakpoint, if there isn't one, program writes to terminal and ends.
+To setup a breakpoint click to the left of line number.  Try setting the breakpoints like in the image.
+If you want to keep track a variable click the + on box 4 and write the name.
 
 > [!TIP]
-> If the variable is passed as a argument it will keep track across functions.  
-> some common variable names like `len, i` will change when entering functions to reflect the new scope.  
+> If the variable is passed as a argument it will keep track across functions.
+> some common variable names like `len, i` will change when entering functions to reflect the new scope.
 <br />
 
 ### Debugger toolbar
-![3_toolbar](https://github.com/Carlos-o-Grande/Debug-setup-vscode-quick/blob/main/toolbar.png)
+![3_toolbar](https://github.com/Carlos-o-Grande/Debug-setup-vscode-quick/blob/main/assets/toolbar.png)
 
-from left to right:  
+from left to right:
 - PLAY - goes to the next breakpoint
 -  STEP OVER - follow line by line but doesn't follow functions
 - STEP INTO - goes inside the function if on a line that uses one
@@ -138,12 +153,143 @@ from left to right:
 - STOP
 <br />
 
+## Demo debugging with vsCode
+- Add Watches
+- Watches can cause crashes on healthy code
+- Conditional breaks
+- Show how cc flags influence debugging
+- Uncomment faulty code and demo stack trace
+
+
 ### Are you using a Makefile?
 To compile with debug options add somewhere below `all` rule
 ```
 debug: CFLAGS += -g3
 debug: re
 ```
- 
+- This add the g3 flag to the cc options, then just call it like this:
+```
+make debug
+```
+
 <br />
-That's it. Done. For new projects just copy the .vscode folder and it's contents and do some editing.  
+
+## That's it.
+Done. For new projects just copy the .vscode folder and it's contents and do some refactoring.
+
+<br /><br />
+# CC Optimization Levels (-O) (WIP, need citation from cc manual)
+
+The `-O` flag in CC controls the overall optimization level. Higher levels enable more aggressive optimizations, which can result in faster code execution but may increase compilation time and sometimes make debugging more difficult.
+
+---
+
+### `-O0` (No Optimization)
+
+This is the default level if `-O` flag not is specified.
+
+*   **Goal:** Reduce compilation time and ensure debugging produces the expected results.
+*   **Behavior:** The compiler turns off almost all optimizations. It translates the source code in a direct, straightforward manner.
+*   **Debugging:** The best level for debugging. The compiled code is a direct representation of the source code, so variables are not optimized away and the flow of execution is easy to follow.
+*   **Use Case:** Development and debugging.
+
+---
+
+### `-O1` (Basic Optimization)
+
+This level enables a collection of basic, safe optimizations.
+
+*   **Goal:** Optimize for speed and code size without taking too much compilation time.
+*   **Behavior:** Performs simple optimizations like dead code elimination, constant propagation, and instruction scheduling. It avoids optimizations that have a high cost in compilation time.
+*   **Debugging:** Still possible, but can be slightly more challenging as the compiler may rearrange code or eliminate unused variables.
+*   **Use Case:** A good starting point for optimization when compilation time is a concern.
+
+---
+
+### `-O2` (More Optimization)
+
+This is the standard optimization level recommended for release builds.
+
+*   **Goal:** A strong balance of performance and compilation time.
+*   -**Behavior:** Enables nearly all optimizations that do not involve a space-speed tradeoff. This includes all optimizations from `-O1` plus more advanced ones like function inlining and improved instruction scheduling.
+*   **Debugging:** Can be difficult. The structure of the generated code can be very different from the source code, making it hard to step through and inspect variables.
+*   **Use Case:** Standard for production/release code.
+
+---
+
+### `-O3` (Aggressive Optimization)
+
+This level enables the most aggressive optimizations.
+
+*   **Goal:** Maximize the performance of the generated code.
+*   **Behavior:** Includes all optimizations from `-O2` plus more aggressive and speculative ones, such as auto-vectorization (using SIMD instructions) and more aggressive function inlining.
+*   **Debugging:** Very difficult. The code is heavily transformed.
+*   **Use Case:** For performance-critical applications where speed is the absolute priority. Note that `-O3` can sometimes result in larger binaries and may not always be faster than `-O2` due to cache effects.
+
+---
+
+### Summary Table
+
+| Level | Focus                       | Debugging Experience | Typical Use Case                  |
+| :---- | :-------------------------- | :------------------- | :-------------------------------- |
+| `-O0` | Fast compilation, accuracy  | Excellent            | Development, initial debugging    |
+| `-O1` | Basic speed/size            | Good                 | Quick builds with some optimization |
+| `-O2` | High performance            | Difficult            | Standard release builds           |
+| `-O3` | Maximum performance         | Very Difficult       | Performance-critical code         |
+
+<br /><br />
+
+# CC Debug Levels (-g) (WIP, need citation from cc manual)
+
+The `-g` flag tells the CC compiler to produce debugging information in the operating system's native format (e.g., DWARF on Linux). This information is stored in the executable file and used by debuggers like GDB to let you step through your code, inspect variables, and see where crashes happen.
+
+You can control the amount of information generated by specifying a level (e.g., `-g1`, `-g2`, `-g3`).
+
+---
+
+### No `-g` or `-g0`
+
+This level means no debugging information is generated.
+
+*   **Behavior:** The resulting executable is smaller, but debugging is nearly impossible.
+*   **Debugging:** You cannot see source code lines, inspect local variables, or get meaningful backtraces. You might only see function names if the symbol table isn't stripped.
+*   **Use Case:** Final release builds where binary size is critical and debugging is not a priority.
+
+---
+
+### `-g1` (Minimal Information)
+
+This level provides the minimum amount of information needed for basic debugging.
+
+*   **Behavior:** Includes function names, line numbers, and source file information.
+*   **Debugging:** You can get a backtrace to see the call stack and identify the exact line where a program crashed. However, you **cannot** inspect the values of local variables or expand macros.
+*   **Use Case:** Useful for production builds where you want to be able to analyze crash dumps for post-mortem debugging without including the full debug info, thus keeping the binary size smaller.
+
+---
+
+### `-g2` (Default Level)
+
+This is the standard level for debugging and is the default if you just specify `-g` without a number.
+
+*   **Behavior:** Includes everything from level 1, plus information about local variables, global variables, and defined types.
+*   **Debugging:** This is the standard for day-to-day debugging. It allows you to step through code, inspect the values of most variables, and see the full source code in the debugger.
+*   **Use Case:** The most common level for development and general debugging.
+
+---
+
+### `-g3` (Maximum Information)
+
+This level includes all information from level 2, plus extra information that can be useful in complex scenarios.
+
+*   **Behavior:** The key addition at this level is the inclusion of **macro definitions**.
+*   **Debugging:** Allows you to expand macros within the debugger (e.g., using `macro expand <macro_name>` in GDB). This is extremely useful when debugging code that relies heavily on complex preprocessor macros.
+*   **Use Case:** Debugging complex C/C++ codebases that use macros extensively. As seen in your `tasks.json`, it's also commonly used with sanitizers (`-fsanitize`) to provide the most detailed error reports possible.
+
+### Summary Table
+
+| Level | Key Features Included                               | Best For                                                              |
+| :---- | :-------------------------------------------------- | :-------------------------------------------------------------------- |
+| `-g0` | None                                                | Final release builds where size is critical.                          |
+| `-g1` | Function names, line numbers.                       | Analyzing crash dumps from production without full debug overhead.    |
+| `-g2` | Level 1 + **local variables** and types.            | Standard, everyday development and debugging.                         |
+| `-g3` | Level 2 + **macro definitions**.                    | Debugging code with complex macros or when using tools like sanitizers. |
