@@ -1,6 +1,19 @@
+/*
+              █████ █████            █████
+             ░░███ ░░███            ░░███
+  ███████  ███████  ░███████      ███████   ██████  █████████████    ██████
+ ███░░███ ███░░███  ░███░░███    ███░░███  ███░░███░░███░░███░░███  ███░░███
+░███ ░███░███ ░███  ░███ ░███   ░███ ░███ ░███████  ░███ ░███ ░███ ░███ ░███
+░███ ░███░███ ░███  ░███ ░███   ░███ ░███ ░███░░░   ░███ ░███ ░███ ░███ ░███
+░░███████░░████████ ████████    ░░████████░░██████  █████░███ █████░░██████
+ ░░░░░███ ░░░░░░░░ ░░░░░░░░      ░░░░░░░░  ░░░░░░  ░░░░░ ░░░ ░░░░░  ░░░░░░
+ ███ ░███
+░░██████
+ ░░░░░░                                         cjoao-de @ 42lisboa
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
-// #include "ballons.h"
 
 void	no_more_ballons()
 {
@@ -32,10 +45,10 @@ void	do_this(int *cnt, char *string)
 		printf("%i %s\n", result, string);
 
 	// Segfault when cnt reaches 67
-	// if (cnt == 67)
+	// if (*cnt == 67)
 	// {
-	// 	printf("About to crash when cnt=%d...\n", cnt);
-	// 	printf("Divide by Zero %d", cnt/0);
+	// 	printf("About to crash when cnt=%d...\n", *cnt);
+	// 	printf("Divide by Zero %d", *cnt/0);
 	// }
 
 	return ;
@@ -48,7 +61,7 @@ int		main(int argc, char **argv)
 
 	if (argc == 2)
 		cnt = atoi(argv[1]);	// there is a missing check here, what is it?
-	while (cnt)					// HINT: atoi not guarded breaks this!
+	while (cnt)					// HINT: not guarding atoi() breaks this!
 	{
 		do_this(&cnt, string);	// pass cnt as a pointer - WATCH
 		cnt--;
