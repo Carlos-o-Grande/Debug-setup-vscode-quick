@@ -27,22 +27,13 @@ void	one_ballon()
 	return ;
 }
 
-int	do_nothing(int cnt)
-{
-	// cnt in this scope is a int - WATCH
-	return (cnt);
-}
-
 void	do_this(int *cnt, char *string)
 {
 	// cnt in this scope is a pointer - WATCH
-	int result;
-	result = do_nothing(*cnt);
-
-	if (result == 1)
+	if (*cnt == 1)
 		one_ballon();
 	else
-		printf("%i %s\n", result, string);
+		printf("%i %s\n", *cnt, string);
 
 	// Segfault when cnt reaches 67
 	// if (*cnt == 67)
